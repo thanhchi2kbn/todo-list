@@ -1,0 +1,25 @@
+.todo-list-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todo-list-wapper{
+    border: 3px black solid;
+    width: 600px;
+    padding: 10px;
+    margin-top: 40px;
+    border-radius: 20px;
+    background-color: antiquewhite;
+    
+}
+
+.todo-list-main{
+    padding: 20px 10px;
+}
+
+.todo-list-panigation{
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}

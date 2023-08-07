@@ -1,0 +1,45 @@
+.task{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+
+    &__name{
+        margin: 0;
+        font-weight: 600;
+        height: 19px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &--done{
+            color: green;
+            text-decoration: line-through;
+        }
+    }
+
+
+    &__groups-btn{
+        display: flex;
+        column-gap: 10px;
+        
+    }
+
+    &__btn-done {
+        cursor: pointer;
+        background-color: rgb(4, 216, 78);
+        padding: 4px 6px;
+    }
+
+    &__btn-del{
+        cursor: pointer;
+        background-color: rgb(216, 78, 4);
+        padding: 4px 6px;
+    }
+
+    &__btn-reverse{
+        cursor: pointer;
+        background-color: rgb(255, 208, 0);
+        padding: 4px 6px;
+    }
+}

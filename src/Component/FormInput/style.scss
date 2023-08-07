@@ -1,0 +1,21 @@
+.todo-list-header{
+
+    &__title{
+        text-align: center;
+    }
+
+    &__form{
+        display: flex;
+        column-gap: 20px;
+        margin-bottom: 20px;
+        
+    }
+
+    &__btn-add{
+        background-color: antiquewhite;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 30px;
+    }
+}
