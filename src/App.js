@@ -17,7 +17,7 @@ function App() {
     totalTask: 0,
   });
 
-  const fetchAllTask = async(params) =>{
+  const fetchAllTask = async (params) => {
     setIsLoading(true);
     const res = await TaskApi.getAllTasks(params);
     setTasks(res.data);
@@ -28,27 +28,13 @@ function App() {
     setIsLoading(false);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchAllTask({
       _page: pagination.currentPage,
       _limit: pagination.limitPerPage,
     });
-  },[pagination.currentPage])
-
-  const renderTaskList = (taskList) => {
-    if (!tasks.length){
-      return <div style={{ textAlign: "center" }}>Please input your task</div>
-    }
-    return taskList.map((task) => (
-       <Task 
-            key={task.id} 
-            task={task} 
-            handleRemoveTask={handleRemoveTask} 
-            handleToggleTask={handleToggleTask}
-            />
-    ))
-  };
-
+  }, [pagination.currentPage])
+  
   const handleAddTask = async (taskName) => {
     const newTask = {
       taskName: taskName,
@@ -77,7 +63,9 @@ function App() {
       await TaskApi.updateTask(taskId, updatedTask);
       const updatedTaskList = tasks.map(task => (task.id === taskId ? updatedTask : task));
       setTasks(updatedTaskList);
-  
+
+     
+
       // Sau khi cập nhật thành công, gọi lại fetchAllTask để đồng bộ hóa danh sách công việc mới
       fetchAllTask({
         _page: pagination.currentPage,
@@ -85,9 +73,17 @@ function App() {
       });
     }
   }
-  
 
-  const handleChangePage = (page) =>{
+  const handleEditTask = async (taskId, updatedTask) => {
+    await TaskApi.updateTask(taskId, updatedTask);
+    fetchAllTask({
+      _page: pagination.currentPage,
+      _limit: pagination.limitPerPage,
+    });
+  };
+
+
+  const handleChangePage = (page) => {
     setPagination({
       ...pagination,
       currentPage: page,
@@ -95,7 +91,22 @@ function App() {
   }
 
   // 
- 
+  const renderTaskList = (taskList) => {
+    if (!tasks.length) {
+      return <div style={{ textAlign: "center" }}>Please input your task</div>
+    }
+    return taskList.map((task) => (
+      <Task
+        key={task.id}
+        task={task}
+        handleRemoveTask={handleRemoveTask}
+        handleToggleTask={handleToggleTask}
+        handleEditTask = {handleEditTask}
+      />
+    ))
+  };
+
+
   return (
     <div className="App">
       <div className='todo-list-container'>
@@ -103,19 +114,19 @@ function App() {
           <FormInput handleAddTask={handleAddTask} />
 
           <div className='todo-list-main'>
-            {isLoading ? <Spin/> :(renderTaskList(tasks))}
-            
+            {isLoading ? <Spin /> : (renderTaskList(tasks))}
+
           </div>
 
           <Dividers />
           <div className='todo-list-panigation'>
-            <Pagination 
-              defaultCurrent={pagination.currentPage} 
+            <Pagination
+              defaultCurrent={pagination.currentPage}
               current={pagination.currentPage}
-              total={pagination.totalTask } 
+              total={pagination.totalTask}
               pageSize={pagination.limitPerPage}
-              onChange={(page)=> handleChangePage(page)}
-              />
+              onChange={(page) => handleChangePage(page)}
+            />
           </div>
         </div>
       </div>
