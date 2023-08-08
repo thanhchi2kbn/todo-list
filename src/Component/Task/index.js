@@ -39,13 +39,16 @@ const Task = (props) => {
       <div className='task'>
         {isEditing ? (
           <>
-            <input
+            <textarea
               className="task__edit-input"
               value={editedTask.taskName}
               onChange={(e) => setEditedTask({ ...editedTask, taskName: e.target.value })}
             />
-            <button onClick={handleSave} className='task__btn-done'><SaveOutlined /></button>
-            <button onClick={handleCancel} className='task__btn-del'><CloseOutlined /></button>
+            <div className="task__edit-btn">
+              <button onClick={handleSave} className='task__btn-done'><SaveOutlined /></button>
+              <button onClick={handleCancel} className='task__btn-del'><CloseOutlined /></button>
+            </div>
+          
           </>
         ) : (
           <>

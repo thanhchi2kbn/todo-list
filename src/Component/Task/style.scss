@@ -3,15 +3,19 @@
     align-items: center;
     justify-content: space-between;
     margin: 10px 0;
-
     &__name{
         margin: 0;
         font-weight: 600;
-        height: 19px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-
+        &:hover {
+            overflow:initial;
+            white-space:pre-wrap;
+          }
+        &:hover.task{
+            height: 50px !important;
+          }
         &--done{
             color: green;
             text-decoration: line-through;
@@ -49,4 +53,12 @@
         padding: 4px 6px;
     }
     
+}
+
+.task__edit-btn button{
+    margin-left: 10px;
+}
+
+.task__edit-input{
+    width: 400px;
 }
