@@ -6,6 +6,7 @@ import FormInput from './Component/FormInput';
 import Dividers from './Component/Divider/';
 import { useEffect, useState } from 'react';
 import { TaskApi } from './Apis/TaskApi';
+import Footer from './Component/Footer';
 
 
 function App() {
@@ -49,12 +50,24 @@ function App() {
   };
 
   const handleRemoveTask = async (taskId) => {
-    await TaskApi.removeTask(taskId)
-    fetchAllTask({
-      _page: pagination.currentPage,
-      _limit: pagination.limitPerPage,
-    })
-  }
+    await TaskApi.removeTask(taskId);
+    const currentPageTaskCount = tasks.length;
+    const isLastPageAndNoTask = currentPageTaskCount === 1 && pagination.currentPage > 1;
+    if (isLastPageAndNoTask) {
+      // Nếu không còn task và đang ở trang cuối, chuyển về trang trước đó
+      setPagination((prevPagination) => ({
+        ...prevPagination,
+        currentPage: prevPagination.currentPage - 1,
+      }));
+    } else {
+      // Nếu còn task hoặc không ở trang cuối, gọi lại fetchAllTask để cập nhật danh sách task mới
+      fetchAllTask({
+        _page: pagination.currentPage,
+        _limit: pagination.limitPerPage,
+      });
+    }
+  };
+  
 
   const handleToggleTask = async (taskId) => {
     const taskToUpdate = tasks.find(task => task.id === taskId);
@@ -90,6 +103,20 @@ function App() {
     });
   }
 
+  const handleClearAllPendingTasks = async () => {
+    try {
+      const pendingTasks = tasks.filter((task) => !task.isDone);
+      for (const task of pendingTasks) {
+        await TaskApi.removeTask(task.id);
+      }
+      fetchAllTask({
+        _page: pagination.currentPage,
+        _limit: pagination.limitPerPage,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // 
   const renderTaskList = (taskList) => {
     if (!tasks.length) {
@@ -128,6 +155,9 @@ function App() {
               onChange={(page) => handleChangePage(page)}
             />
           </div>
+            
+          <Footer tasks={tasks} handleClearAllPendingTasks={handleClearAllPendingTasks}/>
+          
         </div>
       </div>
     </div>

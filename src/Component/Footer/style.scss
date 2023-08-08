@@ -1,0 +1,19 @@
+.btn-clear-all{
+    cursor: pointer;
+    background-color: rgb(255, 115, 1);
+    padding: 6px 8px;
+    color: #fff
+}
+
+.todo-list-footer{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px 20px;
+}
+
+.foot-notify{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+}
